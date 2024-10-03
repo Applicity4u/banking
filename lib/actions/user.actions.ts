@@ -44,9 +44,10 @@ export const signIn = async ({ email, password }: signInProps) => {
       secure: true,
     });
 
-    const user = await getUserInfo({ userId: session.userId }) 
+    //const user = await getUserInfo({ userId: session.userId }) 
 
-    return parseStringify(user);
+    //return parseStringify(user);
+    return parseStringify(session);
   } catch (error) {
     console.error('Error', error);
   }
@@ -68,7 +69,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     );
 
     if(!newUserAccount) throw new Error('Error creating user')
-
+/*
     const dwollaCustomerUrl = await createDwollaCustomer({
       ...userData,
       type: 'personal'
@@ -89,7 +90,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
         dwollaCustomerUrl
       }
     )
-
+*/
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
@@ -99,7 +100,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       secure: true,
     });
 
-    return parseStringify(newUser);
+    //return parseStringify(newUser);
+    return parseStringify(newUserAccount);
   } catch (error) {
     console.error('Error', error);
   }
@@ -110,9 +112,10 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     const result = await account.get();
 
-    const user = await getUserInfo({ userId: result.$id})
+    //const user = await getUserInfo({ userId: result.$id})
 
-    return parseStringify(user);
+    //return parseStringify(user);
+    return parseStringify(result)
   } catch (error) {
     console.log(error)
     return null;
