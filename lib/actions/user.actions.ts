@@ -69,7 +69,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     );
 
     if(!newUserAccount) throw new Error('Error creating user')
-/*
+
     const dwollaCustomerUrl = await createDwollaCustomer({
       ...userData,
       type: 'personal'
@@ -90,7 +90,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
         dwollaCustomerUrl
       }
     )
-*/
+
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
@@ -100,8 +100,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       secure: true,
     });
 
-    //return parseStringify(newUser);
-    return parseStringify(newUserAccount);
+    return parseStringify(newUser);
   } catch (error) {
     console.error('Error', error);
   }
@@ -140,7 +139,7 @@ export const createLinkToken = async (user: User) => {
       user: {
         client_user_id: user.$id
       },
-      client_name: `${user.firstName} ${user.lastName}`,
+      client_name:`${user.firstName} ${user.lastName}`,
       products: ['auth'] as Products[],
       language: 'en',
       country_codes: ['US'] as CountryCode[],
@@ -178,6 +177,9 @@ export const createBankAccount = async ({
         shareableId,
       }
     )
+
+    console.log("***bankAccount***")
+    console.log(bankAccount)
 
     return parseStringify(bankAccount);
   } catch (error) {
